@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CliFx" Version="2.3.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Serilog" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DB\EntityFramework\DB.EntityFramework.csproj" />
+    <ProjectReference Include="..\DB\Provider\Postgres\DB.Provider.Postgres.csproj" />
+    <ProjectReference Include="..\DB\Provider\Oracle\DB.Provider.Oracle.csproj" />
+    <ProjectReference Include="..\DB\Provider\Sqlite\DB.Provider.Sqlite.csproj" />
+    <ProjectReference Include="..\DB\Provider\SqlServer\DB.Provider.SqlServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+      <Content Include="./appsettings.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+  </ItemGroup>
+</Project>

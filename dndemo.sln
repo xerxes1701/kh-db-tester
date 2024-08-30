@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{EB139083-5D89-4BB3-99C5-505EC67BEAFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB", "DB", "{5690B79F-D949-4093-8807-E01494957B17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB.EntityFramework", "DB\EntityFramework\DB.EntityFramework.csproj", "{A470DC24-9942-4F4F-AC22-DFDE3305B8FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Provider", "Provider", "{A1179E6A-29A2-458D-9424-3B6EF8C6EC71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB.Provider.Oracle", "DB\Provider\Oracle\DB.Provider.Oracle.csproj", "{A6DC1615-F4D8-4F68-A987-6877083736CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB.Provider.Sqlite", "DB\Provider\Sqlite\DB.Provider.Sqlite.csproj", "{3FEF7116-610F-49A9-B385-DC845DF33559}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB.Provider.SqlServer", "DB\Provider\SqlServer\DB.Provider.SqlServer.csproj", "{0A28DFA6-E18D-4695-A5EB-D3655AF411A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB.Provider.Postgres", "DB\Provider\Postgres\DB.Provider.Postgres.csproj", "{3FD9CE5A-5962-4F4C-8718-2EA348720A94}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB139083-5D89-4BB3-99C5-505EC67BEAFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB139083-5D89-4BB3-99C5-505EC67BEAFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB139083-5D89-4BB3-99C5-505EC67BEAFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB139083-5D89-4BB3-99C5-505EC67BEAFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A470DC24-9942-4F4F-AC22-DFDE3305B8FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A470DC24-9942-4F4F-AC22-DFDE3305B8FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A470DC24-9942-4F4F-AC22-DFDE3305B8FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A470DC24-9942-4F4F-AC22-DFDE3305B8FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6DC1615-F4D8-4F68-A987-6877083736CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6DC1615-F4D8-4F68-A987-6877083736CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6DC1615-F4D8-4F68-A987-6877083736CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6DC1615-F4D8-4F68-A987-6877083736CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FEF7116-610F-49A9-B385-DC845DF33559}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FEF7116-610F-49A9-B385-DC845DF33559}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FEF7116-610F-49A9-B385-DC845DF33559}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FEF7116-610F-49A9-B385-DC845DF33559}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A28DFA6-E18D-4695-A5EB-D3655AF411A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A28DFA6-E18D-4695-A5EB-D3655AF411A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A28DFA6-E18D-4695-A5EB-D3655AF411A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A28DFA6-E18D-4695-A5EB-D3655AF411A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FD9CE5A-5962-4F4C-8718-2EA348720A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FD9CE5A-5962-4F4C-8718-2EA348720A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FD9CE5A-5962-4F4C-8718-2EA348720A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FD9CE5A-5962-4F4C-8718-2EA348720A94}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A470DC24-9942-4F4F-AC22-DFDE3305B8FF} = {5690B79F-D949-4093-8807-E01494957B17}
+		{A1179E6A-29A2-458D-9424-3B6EF8C6EC71} = {5690B79F-D949-4093-8807-E01494957B17}
+		{A6DC1615-F4D8-4F68-A987-6877083736CE} = {A1179E6A-29A2-458D-9424-3B6EF8C6EC71}
+		{3FEF7116-610F-49A9-B385-DC845DF33559} = {A1179E6A-29A2-458D-9424-3B6EF8C6EC71}
+		{0A28DFA6-E18D-4695-A5EB-D3655AF411A4} = {A1179E6A-29A2-458D-9424-3B6EF8C6EC71}
+		{3FD9CE5A-5962-4F4C-8718-2EA348720A94} = {A1179E6A-29A2-458D-9424-3B6EF8C6EC71}
+	EndGlobalSection
+EndGlobal
