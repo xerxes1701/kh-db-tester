@@ -20,12 +20,6 @@ public static partial class Program
     {
         var builder = Host.CreateDefaultBuilder(args);
 
-        builder.ConfigureHostConfiguration(builder =>
-        {
-            builder.AddEnvironmentVariables();
-            builder.AddCommandLine(args);
-        });
-
         builder.ConfigureServices((context, services) =>
         {
             if (!isDesignTime)
@@ -33,22 +27,24 @@ public static partial class Program
                 services.AddHostedService<MyBackgroundService>();
             }
 
-            services.AddLogging();
             services.AddSingleton<IAppLifecycle, AppLifecycle>();
+
             services.AddDbContext<MyDbContext>((services, dbContextOptions) =>
             {
-                var logger = services.GetService<ILogger>();
-                var dbProvider = context.Configuration.GetRequiredSection("DB:Provider").Value;
-                if (dbProvider is null)
+                var logger = services.GetRequiredService<ILogger<MyDbContext>>();
+                var dbProvider = context.Configuration.GetRequiredSection("DB:Provider").Value switch
                 {
-                    logger?.LogError("DB-Provider not specified, setting `DB:Provider` must be set");
-                }
+                    "" or null => throw new InvalidOperationException("Setting `DB:Provider` not specified"),
+                    string value => value,
+                };
 
-                Console.WriteLine($"dbProvider: {dbProvider}");
-                logger?.LogInformation("DB-Provider: {dbProvider}", dbProvider);
+                logger.LogInformation("DB-Provider: {dbProvider}", dbProvider);
 
-                var connectionString = context.Configuration.GetConnectionString(dbProvider);
-                Console.WriteLine($"connectionString: {connectionString}");
+                var connectionString = context.Configuration.GetConnectionString(dbProvider) switch
+                {
+                    "" or null => throw new InvalidOperationException($"Setting `ConnectionStrings:{dbProvider}` not specified"),
+                    string value => value,
+                };
 
                 _ = dbProvider.ToLowerInvariant() switch
                 {
