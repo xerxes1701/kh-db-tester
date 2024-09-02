@@ -8,11 +8,24 @@ public class MyDbContext
     {
     }
 
-    public required DbSet<WBinAblage> WBinAblage { get; init; }
-}
+    public required DbSet<WBinAblageUnlimited> WBinAblageUnlimited { get; init; }
 
-public class WBinAblage
-{
-    public int Id { get; set; }
-    public string? Data { get; set; }
+    public required DbSet<WBinAblageLimited> WBinAblageLimited { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        var typeNames = this.GetSpecialDbTypeNames();
+
+        modelBuilder.Entity<WBinAblageUnlimited>(e =>
+            {
+                e.Property(e => e.Data).HasColumnType(typeNames.BlobUnlimited);
+            });
+
+        modelBuilder.Entity<WBinAblageLimited>(e =>
+            {
+                e.Property(e => e.Data).HasColumnType(typeNames.BlobLimited);
+            });
+    }
 }

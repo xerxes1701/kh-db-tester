@@ -1,32 +1,29 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using CliFx;
-using CliFx.Infrastructure;
-using CliFx.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Logging;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
+
+Console.WriteLine("starting ...");
+Console.WriteLine("  args:");
+Console.WriteLine("  " + string.Join(' ', args));
 
 await new CliApplicationBuilder()
-  .AddCommand<RootCommand>()
+  .AddCommandsFromThisAssembly()
   .Build()
   .RunAsync();
 
 public static partial class Program
 {
-    public static IHostBuilder CreateHostBuilder(string[] args, bool isDesignTime)
+    public static IHostBuilder CreateHostBuilder(string[] args)
     {
+        Console.WriteLine($"Creating {nameof(IHostBuilder)}...");
+
         var builder = Host.CreateDefaultBuilder(args);
 
         builder.ConfigureServices((context, services) =>
         {
-            if (!isDesignTime)
-            {
-                services.AddHostedService<MyBackgroundService>();
-            }
-
             services.AddSingleton<IAppLifecycle, AppLifecycle>();
 
             services.AddDbContext<MyDbContext>((services, dbContextOptions) =>
@@ -45,6 +42,8 @@ public static partial class Program
                     "" or null => throw new InvalidOperationException($"Setting `ConnectionStrings:{dbProvider}` not specified"),
                     string value => value,
                 };
+
+                logger.LogInformation("connection-string: {connectionString}", connectionString);
 
                 _ = dbProvider.ToLowerInvariant() switch
                 {
@@ -70,73 +69,3 @@ public static partial class Program
         return builder;
     }
 }
-
-[Command]
-class RootCommand()
-: ICommand
-{
-    public async ValueTask ExecuteAsync(IConsole console)
-    {
-        console.Output.WriteLine("RootCommand");
-
-        var args = Environment.GetCommandLineArgs()[1..];
-
-        var builder = Program.CreateHostBuilder(args, isDesignTime: false);
-
-        var app = builder.Build();
-
-        var appLifecycle = (AppLifecycle)app.Services.GetRequiredService<IAppLifecycle>();
-
-        await app.StartAsync();
-        appLifecycle.SignalStarted();
-
-        var dbFactory = new MyDbContextDesigntimeFactory();
-        var dbContext = dbFactory.CreateDbContext(args);
-
-        console.Output.WriteLine($"dbContext created: {dbContext is not null}");
-
-        await app.WaitForShutdownAsync();
-    }
-}
-
-public class MyDbContextDesigntimeFactory
-  : IDesignTimeDbContextFactory<MyDbContext>
-{
-    public MyDbContext CreateDbContext(string[] args)
-    {
-        var builder = Program.CreateHostBuilder(args, isDesignTime: true);
-        IHost host = builder.Build();
-        var scope = host.Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
-        return dbContext;
-    }
-}
-
-public interface IAppLifecycle
-{
-    Task WaitForStarted(CancellationToken cancellationToken);
-}
-
-class AppLifecycle
-: IAppLifecycle
-{
-    private TaskCompletionSource _tcs = new();
-
-    public void SignalStarted() => _tcs.TrySetResult();
-
-    public Task WaitForStarted(CancellationToken cancellationToken)
-    {
-        cancellationToken.Register(() => _tcs.TrySetCanceled());
-        return _tcs.Task;
-    }
-}
-
-class MyBackgroundService(IAppLifecycle appLifecycle)
-  : BackgroundService
-{
-    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        await appLifecycle.WaitForStarted(stoppingToken);
-    }
-}
-
